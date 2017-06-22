@@ -18,7 +18,7 @@
 #import "GPUImage.h"
 #endif
 
-@interface LFVideoCapture ()
+@interface LFVideoCapture ()<GPUImageMovieDelegate>
 
 @property (nonatomic, strong) GPUImageVideoCamera *videoCamera;
 @property (nonatomic, strong) LFGPUImageBeautyFilter *beautyFilter;
@@ -33,6 +33,9 @@
 @property (nonatomic, strong) UIView *waterMarkContentView;
 
 @property (nonatomic, strong) GPUImageMovieWriter *movieWriter;
+
+@property (nonatomic, strong) GPUImageChromaKeyBlendFilter * chromaFilter;
+@property (nonatomic, strong) GPUImageMovie* movieFile;
 
 @end
 
@@ -126,7 +129,11 @@
         [self.blendFilter addTarget:self.movieWriter];
     }
     else {
-        [self.output addTarget:self.movieWriter];
+        if (self.playVideo){
+            [self.chromaFilter addTarget:self.movieWriter];
+        }else{
+            [self.output addTarget:self.movieWriter];
+        }
     }
     
     //unlink(localFileURL.absoluteString.UTF8String);
@@ -147,7 +154,11 @@
         [self.blendFilter removeTarget:self.movieWriter];
     }
     else {
-        [self.output removeTarget:self.movieWriter];
+        if (self.playVideo){
+            [self.chromaFilter removeTarget:self.movieWriter];
+        }else{
+            [self.output removeTarget:self.movieWriter];
+        }
     }
 }
 
@@ -165,7 +176,11 @@
             [_self.blendFilter removeTarget:_self.movieWriter];
         }
         else {
-            [_self.output removeTarget:_self.movieWriter];
+            if (self.playVideo){
+                [self.chromaFilter removeTarget:self.movieWriter];
+            }else{
+                [self.output removeTarget:self.movieWriter];
+            }
         }
         if (completionHandler) {
             completionHandler();
@@ -241,6 +256,22 @@
     [self reloadFilter];
 }
 
+- (void)startPlayVideo:(NSString*)videoName{
+    //return if already playing an video
+    if (_playVideo){
+        return;
+    }
+    
+    _videoName = videoName;
+    //return if can't find video to play
+    if (!self.movieFile){
+        return;
+    }
+    
+    _playVideo = YES;
+    [self reloadFilter];
+}
+
 - (void)setBeautyLevel:(CGFloat)beautyLevel {
     _beautyLevel = beautyLevel;
     if (self.beautyFilter) {
@@ -305,6 +336,14 @@
     return _blendFilter;
 }
 
+- (GPUImageChromaKeyBlendFilter*)chromaFilter{
+    if(!_chromaFilter){
+        _chromaFilter = [[GPUImageChromaKeyBlendFilter alloc]init];
+        [_chromaFilter setColorToReplaceRed:0.0 green:1.0 blue:0.0];
+    }
+    return _chromaFilter;
+}
+
 - (UIView *)waterMarkContentView{
     if(!_waterMarkContentView){
         _waterMarkContentView = [UIView new];
@@ -329,6 +368,21 @@
         return _filter.imageFromCurrentFramebuffer;
     }
     return nil;
+}
+
+-(GPUImageMovie*)movieFile{
+    if (_videoName == nil){
+        return nil;
+    }
+    
+    if (!_movieFile){
+        NSURL *sampleURL = [[NSBundle mainBundle] URLForResource:_videoName withExtension:@"mp4"];
+        _movieFile = [[GPUImageMovie alloc] initWithURL:sampleURL];
+        _movieFile.runBenchmark = YES;
+        _movieFile.playAtActualSpeed = YES;
+        _movieFile.delegate = self;
+    }
+    return _movieFile;
 }
 
 - (GPUImageMovieWriter*)movieWriter{
@@ -360,6 +414,7 @@
     [self.videoCamera removeAllTargets];
     [self.output removeAllTargets];
     [self.cropfilter removeAllTargets];
+    [self.chromaFilter removeAllTargets];
     
     if (self.beautyFace) {
         self.output = [[LFGPUImageEmptyFilter alloc] init];
@@ -386,6 +441,7 @@
     
     //< 添加水印
     if(self.warterMarkView){
+        //will deal with chroma key and watermark later
         [self.filter addTarget:self.blendFilter];
         [self.uiElementInput addTarget:self.blendFilter];
         [self.blendFilter addTarget:self.gpuImageView];
@@ -393,12 +449,23 @@
         [self.filter addTarget:self.output];
         [self.uiElementInput update];
     }else{
-        [self.filter addTarget:self.output];
-        [self.output addTarget:self.gpuImageView];
-        if(self.saveLocalVideo) [self.output addTarget:self.movieWriter];
+        if (self.playVideo){
+            [self.movieFile addTarget:self.chromaFilter];
+            [self.filter addTarget:self.chromaFilter];
+            [self.chromaFilter addTarget:self.gpuImageView];
+            if(self.saveLocalVideo) [self.chromaFilter addTarget:self.movieWriter];
+            [self.chromaFilter addTarget:self.output];
+            
+            [self.movieFile startProcessing];
+        }else{
+            [self.filter addTarget:self.output];
+            [self.output addTarget:self.gpuImageView];
+            if(self.saveLocalVideo) [self.output addTarget:self.movieWriter];
+        }
     }
     
     [self.filter forceProcessingAtSize:self.configuration.videoSize];
+    [self.chromaFilter forceProcessingAtSize:self.configuration.videoSize];
     [self.output forceProcessingAtSize:self.configuration.videoSize];
     [self.blendFilter forceProcessingAtSize:self.configuration.videoSize];
     [self.uiElementInput forceProcessingAtSize:self.configuration.videoSize];
@@ -454,6 +521,14 @@
             }
         }
     }
+}
+
+#pragma mark GPUImageVideoDelegate
+- (void)didCompletePlayingMovie{
+    _playVideo = NO;
+    [self reloadFilter];
+    _movieFile = nil;
+    _chromaFilter = nil;
 }
 
 @end

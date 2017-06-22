@@ -258,6 +258,12 @@
     [self didChangeValueForKey:@"beautyFace"];
 }
 
+- (void)playAlphaVideo:(NSString*)videoName{
+    if (!self.videoCaptureSource.playVideo){
+        [self.videoCaptureSource startPlayVideo:videoName];
+    }
+}
+
 - (BOOL)saveLocalVideo{
     return self.videoCaptureSource.saveLocalVideo;
 }

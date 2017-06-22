@@ -44,6 +44,12 @@
 /** The mirror control mirror of front camera is on or off */
 @property (nonatomic, assign) BOOL mirror;
 
+/** The playVideo control whether or not play alpha video in front of camera */
+@property (nonatomic, assign) BOOL playVideo;
+
+/** the videoName control the video to play in front of camera */
+@property (nonatomic, strong, nullable) NSString* videoName;
+
 /** The beautyLevel control beautyFace Level, default 0.5, between 0.0 ~ 1.0 */
 @property (nonatomic, assign) CGFloat beautyLevel;
 
@@ -87,4 +93,6 @@
 
 - (void)stopRecordingWithCompletionHandler:(void(^)(void))completionHandler;
 //- (void)initMovieWriterWithLocalFileURL:(nonnull NSURL *)localFileURL;
+
+- (void)startPlayVideo:(NSString*)videoName;
 @end

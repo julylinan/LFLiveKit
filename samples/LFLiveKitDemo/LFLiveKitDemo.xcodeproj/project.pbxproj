@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		39CA858E1EFA73E2000A01FD /* confetti.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 39CA858D1EFA73E2000A01FD /* confetti.mp4 */; };
 		84D8B42B1D75778B00752B56 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B42A1D75778B00752B56 /* main.m */; };
 		84D8B42E1D75778B00752B56 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B42D1D75778B00752B56 /* AppDelegate.m */; };
 		84D8B4311D75778B00752B56 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B4301D75778B00752B56 /* ViewController.m */; };
@@ -31,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		289A9C4510CD7EA6F4CE9897 /* Pods-LFLiveKitDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKitDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKitDemo/Pods-LFLiveKitDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		39CA858D1EFA73E2000A01FD /* confetti.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = confetti.mp4; sourceTree = "<group>"; };
 		5B1CCEEE06FCFAF75D105A51 /* libPods-LFLiveKitDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LFLiveKitDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		84D8B4261D75778B00752B56 /* LFLiveKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LFLiveKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84D8B42A1D75778B00752B56 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 		84D8B4281D75778B00752B56 /* LFLiveKitDemo */ = {
 			isa = PBXGroup;
 			children = (
+				39CA858D1EFA73E2000A01FD /* confetti.mp4 */,
 				84D8B42C1D75778B00752B56 /* AppDelegate.h */,
 				84D8B42D1D75778B00752B56 /* AppDelegate.m */,
 				84D8B42F1D75778B00752B56 /* ViewController.h */,
@@ -172,12 +175,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 84D8B43D1D75778B00752B56 /* Build configuration list for PBXNativeTarget "LFLiveKitDemo" */;
 			buildPhases = (
-				A819C09CC049A57DC5C97E12 /* 📦 Check Pods Manifest.lock */,
+				A819C09CC049A57DC5C97E12 /* [CP] Check Pods Manifest.lock */,
 				84D8B4221D75778B00752B56 /* Sources */,
 				84D8B4231D75778B00752B56 /* Frameworks */,
 				84D8B4241D75778B00752B56 /* Resources */,
-				883533331BE4DCC0DB5075CF /* 📦 Embed Pods Frameworks */,
-				4CC4C37B93D109913E475307 /* 📦 Copy Pods Resources */,
+				883533331BE4DCC0DB5075CF /* [CP] Embed Pods Frameworks */,
+				4CC4C37B93D109913E475307 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -199,7 +202,7 @@
 				TargetAttributes = {
 					84D8B4251D75778B00752B56 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = G497YX6CBT;
+						DevelopmentTeam = RMM4D4T6YP;
 					};
 				};
 			};
@@ -231,6 +234,7 @@
 				84D8B45D1D75782700752B56 /* camra_beauty@2x.png in Resources */,
 				84D8B4361D75778B00752B56 /* Assets.xcassets in Resources */,
 				84D8B4621D75782700752B56 /* camra_preview@3x.png in Resources */,
+				39CA858E1EFA73E2000A01FD /* confetti.mp4 in Resources */,
 				84D8B4601D75782700752B56 /* camra_beauty_close@3x.png in Resources */,
 				84D8B4651D75782700752B56 /* ios-29x29.png in Resources */,
 				84D8B4641D75782700752B56 /* close_preview@3x.png in Resources */,
@@ -244,14 +248,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4CC4C37B93D109913E475307 /* 📦 Copy Pods Resources */ = {
+		4CC4C37B93D109913E475307 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -259,14 +263,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LFLiveKitDemo/Pods-LFLiveKitDemo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		883533331BE4DCC0DB5075CF /* 📦 Embed Pods Frameworks */ = {
+		883533331BE4DCC0DB5075CF /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -274,19 +278,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LFLiveKitDemo/Pods-LFLiveKitDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A819C09CC049A57DC5C97E12 /* 📦 Check Pods Manifest.lock */ = {
+		A819C09CC049A57DC5C97E12 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -414,7 +418,7 @@
 			baseConfigurationReference = 289A9C4510CD7EA6F4CE9897 /* Pods-LFLiveKitDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = G497YX6CBT;
+				DEVELOPMENT_TEAM = RMM4D4T6YP;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = LFLiveKitDemo/Info.plist;
@@ -422,7 +426,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LaiFeng;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nan.youku.LaiFeng;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -432,7 +436,7 @@
 			baseConfigurationReference = 96E1231310083A3881AD2AB6 /* Pods-LFLiveKitDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = G497YX6CBT;
+				DEVELOPMENT_TEAM = RMM4D4T6YP;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = LFLiveKitDemo/Info.plist;
@@ -440,7 +444,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LaiFeng;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nan.youku.LaiFeng;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

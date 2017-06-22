@@ -169,5 +169,7 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
 - (void)stopRecordingWithCompletionHandler:(void(^)(void))completionHandler;
 
 - (void)addWaterMaskWithMovieURL:(NSURL *)url andMaskImage:(UIImage *)image completionHandler:(void(^)(void))completionHandler;
+
+- (void)playAlphaVideo:(NSString*)videoName;
 @end
 
