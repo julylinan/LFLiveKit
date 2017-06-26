@@ -130,7 +130,7 @@
     }
     else {
         if (self.playVideo){
-            [self.chromaFilter addTarget:self.movieWriter];
+            [self.output addTarget:self.movieWriter];
         }else{
             [self.output addTarget:self.movieWriter];
         }
@@ -155,7 +155,9 @@
     }
     else {
         if (self.playVideo){
-            [self.chromaFilter removeTarget:self.movieWriter];
+            [self.output removeTarget:self.movieWriter];
+            [self.videoCamera stopCameraCapture];
+            [self.movieFile endProcessing];
         }else{
             [self.output removeTarget:self.movieWriter];
         }
@@ -169,6 +171,11 @@
     }
     self.saveLocalVideo = NO;
     
+    if (self.playVideo){
+        [self.videoCamera stopCameraCapture];
+        [self.movieFile endProcessing];
+    }
+    
     __weak typeof(self) _self = self;
     [self.movieWriter finishRecordingWithCompletionHandler:^ {
         // 添加水印
@@ -176,11 +183,7 @@
             [_self.blendFilter removeTarget:_self.movieWriter];
         }
         else {
-            if (self.playVideo){
-                [self.chromaFilter removeTarget:self.movieWriter];
-            }else{
-                [self.output removeTarget:self.movieWriter];
-            }
+            [self.output removeTarget:self.movieWriter];
         }
         if (completionHandler) {
             completionHandler();
@@ -453,8 +456,9 @@
             [self.movieFile addTarget:self.chromaFilter];
             [self.filter addTarget:self.chromaFilter];
             [self.chromaFilter addTarget:self.gpuImageView];
-            if(self.saveLocalVideo) [self.chromaFilter addTarget:self.movieWriter];
-            [self.chromaFilter addTarget:self.output];
+             [self.chromaFilter addTarget:self.output];
+            if(self.saveLocalVideo) [self.output addTarget:self.movieWriter];
+           
             
             [self.movieFile startProcessing];
         }else{

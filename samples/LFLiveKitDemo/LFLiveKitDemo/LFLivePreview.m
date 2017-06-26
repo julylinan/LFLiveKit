@@ -11,6 +11,10 @@
 #import "UIView+YYAdd.h"
 #import "LFLiveKit.h"
 
+#import <AssetsLibrary/ALAsset.h>
+#import <AssetsLibrary/ALAssetsLibrary.h>
+#import <AssetsLibrary/ALAssetRepresentation.h>
+
 inline static NSString *formatedSpeed(float bytes, float elapsed_milli) {
     if (elapsed_milli <= 0) {
         return @"N/A";
@@ -40,6 +44,8 @@ inline static NSString *formatedSpeed(float bytes, float elapsed_milli) {
 @property (nonatomic, strong) LFLiveDebug *debugInfo;
 @property (nonatomic, strong) LFLiveSession *session;
 @property (nonatomic, strong) UILabel *stateLabel;
+
+@property (nonatomic, retain) ALAssetsLibrary *library;
 
 @end
 
@@ -356,21 +362,48 @@ inline static NSString *formatedSpeed(float bytes, float elapsed_milli) {
         [_startLiveButton setTitle:@"开始直播" forState:UIControlStateNormal];
         [_startLiveButton setBackgroundColor:[UIColor colorWithRed:50 green:32 blue:245 alpha:1]];
         _startLiveButton.exclusiveTouch = YES;
+        
+        NSString *pathToMovie = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/gpu_output.mov"];
+        unlink([pathToMovie UTF8String]); // If a file already exists, AVAssetWriter won't let you record new frames, so delete the old movie
+        NSURL *outputURL = [NSURL fileURLWithPath:pathToMovie];
+        
         __weak typeof(self) _self = self;
         [_startLiveButton addBlockForControlEvents:UIControlEventTouchUpInside block:^(id sender) {
             _self.startLiveButton.selected = !_self.startLiveButton.selected;
             if (_self.startLiveButton.selected) {
-                [_self.startLiveButton setTitle:@"结束直播" forState:UIControlStateNormal];
-                LFLiveStreamInfo *stream = [LFLiveStreamInfo new];
-                stream.url = @"rtmp://live.hkstv.hk.lxdns.com:1935/live/stream153";
-                [_self.session startLive:stream];
+                [_self.startLiveButton setTitle:@"Finish Recording" forState:UIControlStateNormal];
+                [_self.session startRecordingToLocalFileURL:outputURL];
             } else {
-                [_self.startLiveButton setTitle:@"开始直播" forState:UIControlStateNormal];
-                [_self.session stopLive];
+                [_self.startLiveButton setTitle:@"Start Recording" forState:UIControlStateNormal];
+                [_self.session stopRecordingWithCompletionHandler:^{
+                    [_self writeToAlbum:outputURL];
+                }];
             }
         }];
     }
     return _startLiveButton;
+}
+
+- (void)writeToAlbum:(NSURL *)outputFileURL{
+    self.library = [[ALAssetsLibrary alloc] init];
+    
+    [self.library writeVideoAtPathToSavedPhotosAlbum:outputFileURL
+                                     completionBlock:^(NSURL *assetURL, NSError *error)
+     {
+         if (error)
+         {
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 // [SVProgressHUD showErrorWithStatus:@"failed"];
+             });
+             NSLog(@"fail to saved: %@", error);
+         }else{
+             NSLog(@"saved");
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 // [SVProgressHUD showSuccessWithStatus:@"saved"];
+             });
+         }
+     }];
+    
 }
 
 - (void)screenTapped{
